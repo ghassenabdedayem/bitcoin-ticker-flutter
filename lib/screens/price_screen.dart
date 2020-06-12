@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:bitcoin_ticker/components/picker.dart';
+import 'package:bitcoin_ticker/services/get_data.dart';
 
 
 
@@ -17,7 +17,7 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   String selectedCurrency = 'GBP';
-  String coinDataRate;
+  double coinDataRate;
 
   @override
   void initState() {
@@ -25,8 +25,12 @@ class _PriceScreenState extends State<PriceScreen> {
     upDateUI(widget.coinData);
   }
 
-  void upDateUI(dynamic coinData) { // on extrait et on transforme les données dans des var
-    coinDataRate = coinData.toString();
+  void upDateUI(dynamic coinData) async { // on extrait et on transforme les données dans des var
+    setState(() {
+      coinDataRate = CoinData().getCoinData();
+      print('updateUI with the rate $coinData');
+    });
+
   }
 
   @override

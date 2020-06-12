@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'price_screen.dart';
+import 'screens/price_screen.dart';
 import 'package:bitcoin_ticker/services/get_data.dart';
 
 class BuildApp extends StatefulWidget {
@@ -8,6 +8,7 @@ class BuildApp extends StatefulWidget {
 }
 
 class _BuildAppState extends State<BuildApp> {
+  var rate;
 
   @override
   void initState() {
@@ -15,13 +16,21 @@ class _BuildAppState extends State<BuildApp> {
     getCoinData();
   }
 
-  void getCoinData() async {
+  Future<Widget> getCoinData() async {
     var data = await CoinData().getCoinData();
-    print(data);
+    print(data['rate']);
+    setState(() {
+      rate = data['rate'];
+      rate = rate.toInt().toString();
+    });
+
+    print('this is the new rate $rate');
   }
 
   @override
   Widget build(BuildContext context) {
-    return PriceScreen(coinData: 'data',);
+    return PriceScreen(
+      coinData: rate,
+    );
   }
 }
